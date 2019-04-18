@@ -1,5 +1,7 @@
 ###############
 # Directories #
 ###############
-data/
+data/raw/
+data/interim/
+data/processed/
 references/reference_code/
