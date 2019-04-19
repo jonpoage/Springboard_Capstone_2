@@ -11,59 +11,77 @@ def get_repo_root_path():
 	repo_root_path = "C:/Users/Jon/Springboard/Capstone_2_repo/"
 	return repo_root_path
 
-def get_input_data():
-	###############################################################################
-	# Set up root path for repository
-	###############################################################################
-	print("defining pathnames")
+def get_y_ohe_class_names():
+    """returns a list with the target variable class names
+    in an order that is consistent every time the function is called."""
+    
+    # set filepath for list of class names
+    repo_root_path = get_repo_root_path()
+    filepath = repo_root_path + "data/processed/y_ohe_class_names.txt"
+    
+    # load the class names into a list
+    class_list = []
+    
+    with open(filepath, "r") as f:
+        for line in f:
+            class_list.append(line.strip())
+    
+    return class_list
 
-	# set path for repository root directory
-	repo_root_path = get_repo_root_path()
+def get_input_data_from_pickle_file(filepath):
+    """This function takes a filepath string as input.
+    It returns a dataframe with image file data,
+    a 4-D numpy array with pixel intensities,
+    and an array of one hot encoded target values.
+    The columns of the targets array are sorted 
+    according to the order of classes in the class list text file."""
+    
+    # dataframe with image file data
+    df = pd.read_pickle(filepath)
+    
+    # 4-D array of pixel intensities
+    X = np.array(df.pixel_array.tolist())
+    
+    # target variable array, with columns ordered according to class list file
+    y_ohe_df = pd.get_dummies(df.image_class)
+    class_order = get_y_ohe_class_names()
+    y_ohe = y_ohe_df[class_order].values
+    
+    return (X, y_ohe, df)
 
-	###############################################################################
-	# Load processed data into dataframes
-	###############################################################################
-	print("loading data")
+def load_train_data():
+    """This function calls get_input_data_from_pickle_file()
+    on the train data pickle file.
+    It returns a tuple with train data objects."""
+    
+    repo_root_path = get_repo_root_path()
+    filepath = repo_root_path + "data/processed/train_data/train_data.pickle"
+    
+    X, y_ohe, df = get_input_data_from_pickle_file(filepath)
+    
+    return (X, y_ohe, df)
 
-	# load validation and test data
-	df_val = pd.read_pickle(repo_root_path
-	                    + "data/processed/validation_data/validation_data.pickle")
-	df_test = pd.read_pickle(repo_root_path
-	                    + "data/processed/test_data/test_data.pickle")
+def load_validation_data():
+    """This function calls get_input_data_from_pickle_file()
+    on the validation data pickle file.
+    It returns a tuple with validation data objects."""
+    
+    repo_root_path = get_repo_root_path()
+    filepath = repo_root_path \
+                + "data/processed/validation_data/validation_data.pickle"
+    
+    X, y_ohe, df = get_input_data_from_pickle_file(filepath)
+    
+    return (X, y_ohe, df)
 
-	# load the train data in parts
-	train_data_files = glob(repo_root_path
-	                    + "data/processed/train_data/train_data_part*.pickle")
-	
-	df_train_parts = []
-
-	for fn in train_data_files:
-		df_train_parts.append(pd.read_pickle(fn))
-
-	df_train = pd.concat(df_train_parts).sort_index()
-
-	###############################################################################
-	# prepare features and target variable arrays
-	###############################################################################
-	print("preparing feature and target variable arrays")
-
-	# make 4-D numpy arrays with pixel intensities
-	X_train = np.array(df_train.pixel_array.tolist())
-	X_val = np.array(df_val.pixel_array.tolist())
-	X_test = np.array(df_test.pixel_array.tolist())
-
-	# make one hot encoded target variable arrays
-	y_train_ohe = pd.get_dummies(df_train.image_class).values
-	y_val_ohe = pd.get_dummies(df_val.image_class).values
-	y_test_ohe = pd.get_dummies(df_test.image_class).values
-
-	# list of image classes
-	# list indices correspond to indices of target variable arrays
-	y_ohe_classes = pd.get_dummies(df_test.image_class).columns.tolist()
-
-	print("returning input data")
-	
-	return (df_train, df_val, df_test,
-	        X_train, X_val, X_test,
-			y_train_ohe, y_val_ohe, y_test_ohe,
-			y_ohe_classes)
+def load_test_data():
+    """This function calls get_input_data_from_pickle_file()
+    on the test data pickle file.
+    It returns a tuple with test data objects."""
+    
+    repo_root_path = get_repo_root_path()
+    filepath = repo_root_path + "data/processed/test_data/test_data.pickle"
+    
+    X, y_ohe, df = get_input_data_from_pickle_file(filepath)
+    
+    return (X, y_ohe, df)
