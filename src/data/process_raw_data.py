@@ -28,16 +28,13 @@ train_dir = processed_data_path + "train_data/"
 validation_dir = processed_data_path + "validation_data/"
 test_dir = processed_data_path + "test_data/"
 
-# if processed train validation test subdirectories exist, remove them
-if os.path.exists(train_dir):
-    shutil.rmtree(train_dir)
-    
-if os.path.exists(validation_dir):
-    shutil.rmtree(validation_dir)
-    
-if os.path.exists(test_dir):
-    shutil.rmtree(test_dir)
-    
+# if processed data directory exists, remove it
+if os.path.exists(processed_data_path):
+    shutil.rmtree(processed_data_path)
+
+# make new processed data directory
+os.makedirs(processed_data_path)
+
 # make new processed train validation test subdirectories
 os.makedirs(train_dir)
 os.makedirs(validation_dir)
@@ -168,10 +165,20 @@ print("saving data files")
 # save the dataframes to pickle files -- preserves numpy array format
 df_validation.to_pickle(validation_dir + "validation_data.pickle")
 df_test.to_pickle(test_dir + "test_data.pickle")
+df_train.to_pickle(train_dir + "train_data.pickle")
 
-# NOTE: df_train.to_pickle() kept crashing, so I'm saving the df in parts
-df_train.iloc[0:1300].to_pickle(train_dir + 'train_data_part1.pickle')
-df_train.iloc[1300:2600].to_pickle(train_dir + 'train_data_part2.pickle')
-df_train.iloc[2600:].to_pickle(train_dir + 'train_data_part3.pickle')
+###############################################################################
+# Save list of class names
+###############################################################################
+
+print("saving class names")
+
+class_list = ['bacterial_pneumonia', 'viral_pneumonia', 'normal']
+
+class_filepath = processed_data_path + "y_ohe_class_names.txt"
+
+with open(class_filepath, "w") as f:
+    for c in class_list:
+        f.write(c + "\n")
 
 print("done")
