@@ -5,6 +5,7 @@ from keras.preprocessing.image import img_to_array, load_img
 import PIL
 import os
 import shutil
+from definitions import REPO_ROOT_PATH
 
 # set random seed
 np.random.seed(10)
@@ -13,15 +14,8 @@ np.random.seed(10)
 # Set up processed output directories
 ###############################################################################
 
-# NOTE: The root repository directory is set for my machine!
-#       Users may need to update the path below before running the code.
-#
-# set path for repository root directory
-
-repo_root_path = "C:/Users/Jon/Springboard/Capstone_2_repo/"
-
 # set path for processed data directory
-processed_data_path = repo_root_path + "data/processed/"
+processed_data_path = REPO_ROOT_PATH + "data/processed/"
 
 # make train validation test subdirectories
 train_dir = processed_data_path + "train_data/"
@@ -45,7 +39,7 @@ os.makedirs(test_dir)
 ###############################################################################
 
 # set path for raw data directory
-raw_data_path = repo_root_path + "data/raw/"
+raw_data_path = REPO_ROOT_PATH + "data/raw/"
 
 # load raw test data files
 raw_test_files = glob(raw_data_path + "chest_xray/test/*/*.jpeg")
@@ -130,8 +124,8 @@ def get_class_from_filename(filename):
 def df_from_filepath_list(filepath_list, img_size):
     """Takes a list of filepath strings and a tuple of ints
     with image pixel dimensions as input.
-    Returns a dataframe with the base path, class,
-    and numpy pixel array for each filepath."""
+    Returns a dataframe with the base path, image class,
+    and pixel intensity array for each filepath."""
     
     list_of_tuples = []
     
