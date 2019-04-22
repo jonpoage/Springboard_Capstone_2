@@ -129,10 +129,20 @@ def get_vgg16_frozen(input_shape=(224, 224, 3)):
 
 def get_vgg16_fine_tuning(input_shape=(224, 224, 3),
                           idx_first_trainable_layer=11):
+    """This function calls get_vgg16_model() and freezes some amount of
+    layers of the resulting Model object.
+
+    Input arguments:
+        input_shape - (optional) tuple of integers indicating the input shape.
+        idx_first_trainable_layer - (optional) index of the first trainable
+                        layer. This layer and all layers above it are
+                        trainable. All layers below it are not trainable.
+
+    This function returns a Model object."""
 
     vgg_model_fine_tuning = get_vgg16_model(input_shape=input_shape)
 
-    # freeze top layers only
+    # freeze certain layers only
     vgg_model_fine_tuning.trainable = True
     for idx_layer, layer in enumerate(vgg_model_fine_tuning.layers):
         if idx_layer < idx_first_trainable_layer:
@@ -140,6 +150,6 @@ def get_vgg16_fine_tuning(input_shape=(224, 224, 3),
         elif idx_layer >= idx_first_trainable_layer:
             layer.trainable = True
         else:
-            raise Exception("Cannot Freeze VGG16 layers! Invalid layer index.")
+            raise Exception("Cannot freeze VGG16 layers! Invalid layer index.")
 
     return vgg_model_fine_tuning
