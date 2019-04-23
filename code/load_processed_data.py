@@ -32,7 +32,7 @@ def get_input_data_from_pickle_file(filepath):
     df = pd.read_pickle(filepath)
 
     # 4-D array of pixel intensity values
-    X = np.array(df.pixel_array.tolist())
+    X = np.array(df.pixel_array_custom_image_size.tolist())
 
     # one hot encoded target variable array
     y_ohe_df = pd.get_dummies(df.image_class)

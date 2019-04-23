@@ -69,7 +69,8 @@ normal_val_files = np.random.choice(raw_train_normal_files,
                                     replace=False).tolist()
 
 # make lists of files for train set
-bacteria_train_files = list(set(raw_train_bacteria_files) - set(bacteria_val_files))
+bacteria_train_files = list(set(raw_train_bacteria_files)
+                            - set(bacteria_val_files))
 virus_train_files = list(set(raw_train_virus_files) - set(virus_val_files))
 normal_train_files = list(set(raw_train_normal_files) - set(normal_val_files))
 
@@ -93,10 +94,10 @@ print("copying image files")
 
 for fn in train_files:
     shutil.copy(fn, train_dir + img_subdir)
-    
+
 for fn in validation_files:
     shutil.copy(fn, validation_dir + img_subdir)
-    
+
 for fn in test_files:
     shutil.copy(fn, test_dir + img_subdir)
 
@@ -104,11 +105,12 @@ for fn in test_files:
 # Process image file data into dataframes
 ###############################################################################
 
+
 # function to get class from filename
 def get_class_from_filename(filename):
     """Takes a string with the base name of a filepath as input.
     returns the class as a string."""
-    
+
     if 'NORMAL' in filename:
         str_class = 'normal'
     elif 'BACTERIA' in filename:
@@ -117,8 +119,9 @@ def get_class_from_filename(filename):
         str_class = 'viral_pneumonia'
     else:
         raise Exception('Filename not valid!  Class not found.')
-    
+
     return str_class
+
 
 # function to make dataframe using list of image filepaths
 def df_from_filepath_list(filepath_list, img_size):
@@ -126,19 +129,20 @@ def df_from_filepath_list(filepath_list, img_size):
     with image pixel dimensions as input.
     Returns a dataframe with the base path, image class,
     and pixel intensity array for each filepath."""
-    
+
     list_of_tuples = []
-    
+
     for fp in filepath_list:
         f_name = os.path.basename(fp)
         f_class = get_class_from_filename(f_name)
         pixel_array = img_to_array(load_img(fp, target_size=img_size))
         list_of_tuples.append((f_name, f_class, pixel_array))
-        
+
     return pd.DataFrame(list_of_tuples,
                         columns=['image_file_base_path',
                                  'image_class',
-                                 'pixel_array'])
+                                 'pixel_array_custom_image_size'])
+
 
 # Set the image size
 IMG_SIZE = (224, 224)
