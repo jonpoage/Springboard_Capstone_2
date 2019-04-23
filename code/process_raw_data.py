@@ -2,10 +2,9 @@ from glob import glob
 import numpy as np
 import pandas as pd
 from keras.preprocessing.image import img_to_array, load_img
-import PIL
 import os
 import shutil
-from definitions import REPO_ROOT_PATH
+from definitions import REPO_ROOT_PATH, PROCESSED_DATA_PATH
 
 # set random seed
 np.random.seed(10)
@@ -14,20 +13,17 @@ np.random.seed(10)
 # Set up processed output directories
 ###############################################################################
 
-# set path for processed data directory
-processed_data_path = REPO_ROOT_PATH + "data/processed/"
-
 # make train validation test subdirectories
-train_dir = processed_data_path + "train_data/"
-validation_dir = processed_data_path + "validation_data/"
-test_dir = processed_data_path + "test_data/"
+train_dir = PROCESSED_DATA_PATH + "train_data/"
+validation_dir = PROCESSED_DATA_PATH + "validation_data/"
+test_dir = PROCESSED_DATA_PATH + "test_data/"
 
 # if processed data directory exists, remove it
-if os.path.exists(processed_data_path):
-    shutil.rmtree(processed_data_path)
+if os.path.exists(PROCESSED_DATA_PATH):
+    shutil.rmtree(PROCESSED_DATA_PATH)
 
 # make new processed data directory
-os.makedirs(processed_data_path)
+os.makedirs(PROCESSED_DATA_PATH)
 
 # make new processed train validation test subdirectories
 os.makedirs(train_dir)
@@ -173,7 +169,7 @@ print("saving class names")
 
 class_list = ['bacterial_pneumonia', 'viral_pneumonia', 'normal']
 
-class_filepath = processed_data_path + "y_ohe_class_names.txt"
+class_filepath = PROCESSED_DATA_PATH + "y_ohe_class_names.txt"
 
 with open(class_filepath, "w") as f:
     for c in class_list:

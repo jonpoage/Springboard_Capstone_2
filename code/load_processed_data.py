@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from definitions import REPO_ROOT_PATH
+from definitions import PROCESSED_DATA_PATH
 
 
 def get_y_ohe_class_names():
@@ -8,7 +8,7 @@ def get_y_ohe_class_names():
     in an order that is consistent every time the function is called."""
 
     # set filepath for file that contains list of class names
-    filepath = REPO_ROOT_PATH + "data/processed/y_ohe_class_names.txt"
+    filepath = PROCESSED_DATA_PATH + "y_ohe_class_names.txt"
 
     # load the class names into a list
     class_list = []
@@ -46,7 +46,7 @@ def load_train_data():
     """This function calls get_input_data_from_pickle_file()
     on the train data pickle file and returns (X, y_ohe, df)."""
 
-    filepath = REPO_ROOT_PATH + "data/processed/train_data/train_data.pickle"
+    filepath = PROCESSED_DATA_PATH + "train_data/train_data.pickle"
 
     X, y_ohe, df = get_input_data_from_pickle_file(filepath)
 
@@ -57,8 +57,7 @@ def load_validation_data():
     """This function calls get_input_data_from_pickle_file()
     on the validation data pickle file and returns (X, y_ohe, df)."""
 
-    filepath = REPO_ROOT_PATH \
-            + "data/processed/validation_data/validation_data.pickle"
+    filepath = PROCESSED_DATA_PATH + "validation_data/validation_data.pickle"
 
     X, y_ohe, df = get_input_data_from_pickle_file(filepath)
 
@@ -69,7 +68,7 @@ def load_test_data():
     """This function calls get_input_data_from_pickle_file()
     on the test data pickle file and returns (X, y_ohe, df)."""
 
-    filepath = REPO_ROOT_PATH + "data/processed/test_data/test_data.pickle"
+    filepath = PROCESSED_DATA_PATH + "test_data/test_data.pickle"
 
     X, y_ohe, df = get_input_data_from_pickle_file(filepath)
 
