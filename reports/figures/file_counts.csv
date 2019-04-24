@@ -1,0 +1,10 @@
+Data Set,Image Class,Count
+train,bacterial pneumonia,1904
+train,viral pneumonia,1009
+train,normal,1012
+validation,bacterial pneumonia,634
+validation,viral pneumonia,336
+validation,normal,337
+test,bacterial pneumonia,242
+test,viral pneumonia,148
+test,normal,234

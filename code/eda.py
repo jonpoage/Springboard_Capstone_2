@@ -14,6 +14,8 @@ rcParams.update({'font.size': 18})
 # Create Dataframe with all processed image data
 ###############################################################################
 
+print('loading image data')
+
 # load train, validation, test dataframes with the processed data
 _, _, df_train = ld.load_train_data()
 _, _, df_val = ld.load_validation_data()
@@ -27,12 +29,11 @@ df_test['data_set'] = 'test'
 df = pd.concat([df_train, df_val, df_test],
                ignore_index=True)
 
-# list of class names
-df_class_list = df.image_class.unique().tolist()
-
 ###############################################################################
 # Copy example image files to figure output directory
 ###############################################################################
+
+print('copying example image files')
 
 # filepath for training image files
 train_image_filepath = PROCESSED_DATA_PATH + "train_data/image_files/"
@@ -53,6 +54,8 @@ for k, fp in filepath_examples.items():
 ###############################################################################
 # Create csv file with file counts grouped by data set and class
 ###############################################################################
+
+print('creating csv file with file counts')
 
 # copy the dataframe that has all processed image data
 df_customize = df.copy()
@@ -87,26 +90,35 @@ df_counts.to_csv(FIGURE_OUTPUT_PATH + 'file_counts.csv')
 # Create mean image pixel arrays
 ###############################################################################
 
+print('making mean images')
+
 # initialize dicts of pixel arrays
 X_rgb = {}
 X_avg_rgb = {}
 X_avg_bw = {}
 
+# list of class names
+class_list = df.image_class.unique().tolist()
+
 # fill dicts with pixel arrays keyed by class
-for c in df_class_list:
+for c in class_list:
     # create 4-D arrays of pixel intensities (RGB)
     X_rgb[c] = np.array(
             df.pixel_array_custom_image_size[df.image_class == c].tolist())
 
     # get the mean image pixel arrays (RGB)
-    X_avg_rgb[c] = np.mean(X_rgb[c], axis=0)
+    X_avg_rgb[c] = np.mean(X_rgb[c],
+                           axis=0)
 
     # get the mean image pixel arrays converted to greyscale
-    X_avg_bw[c] = cv2.cvtColor(X_avg_rgb[c], cv2.COLOR_RGB2GRAY)
+    X_avg_bw[c] = cv2.cvtColor(X_avg_rgb[c],
+                               cv2.COLOR_RGB2GRAY)
 
 ###############################################################################
 # Create image file with mean images
 ###############################################################################
+
+print('creating png file with mean images')
 
 # create the figure and subplot axes
 fig, ax = plt.subplots(nrows=1,
@@ -114,15 +126,17 @@ fig, ax = plt.subplots(nrows=1,
                        figsize=(13, 4))
 
 # plot the mean images
-for ic, c in enumerate(df_class_list):
-    ax[ic].imshow(X_avg_bw[c], cmap='gray')
+for ic, c in enumerate(class_list):
+    ax[ic].imshow(X_avg_bw[c],
+                  cmap='gray')
     ax[ic].set_yticks([])
     ax[ic].set_xticks([])
     ax[ic].set_xlabel(c.replace("_", " ").title())
 
 # add a title to the figure
-fig.suptitle('Mean Images (%i x %i)' % (
-        X_avg_bw['normal'].shape[0], X_avg_bw['normal'].shape[1]))
+fig.suptitle('Mean Images (%i x %i)'
+             % (X_avg_bw['normal'].shape[0],
+                X_avg_bw['normal'].shape[1]))
 
 # save the figure as an image file
 fig.savefig(FIGURE_OUTPUT_PATH + 'mean_images.png')
@@ -130,6 +144,8 @@ fig.savefig(FIGURE_OUTPUT_PATH + 'mean_images.png')
 ###############################################################################
 # Create image file with intensity histograms
 ###############################################################################
+
+print('creating png file with mean image intensity histograms')
 
 # create the figure and subplot axes
 fig, ax = plt.subplots(nrows=3,
@@ -139,20 +155,27 @@ fig, ax = plt.subplots(nrows=3,
                        figsize=(8, 10))
 
 # plot the intensity histograms
-for ic, c in enumerate(df_class_list):
+for ic, c in enumerate(class_list):
     ax[ic].hist(X_avg_bw[c].ravel(),
                 bins=256,
                 range=[0, 256],
                 color='grey')
-    ax[ic].text(-5, 600, c.replace("_", " "), color='grey')
+    ax[ic].text(x=-5,
+                y=600,
+                s=c.replace("_", " "),
+                color='grey')
 
 # add title and axis labels to figure
 ax[0].set_title('Intensity Histograms of Mean Images')
 ax[-1].set_xlabel('Pixel Intensity')
-fig.text(0.02, 0.5, 'Frequency Count',
+fig.text(x=0.02,
+         y=0.5,
+         s='Frequency Count',
          ha='center',
          va='center',
          rotation='vertical')
 
 # save the figure as an image file
 fig.savefig(FIGURE_OUTPUT_PATH + 'mean_images_intensity_histograms.png')
+
+print('done')
