@@ -24,13 +24,14 @@ df_val['data_set'] = 'validation'
 df_test['data_set'] = 'test'
 
 # concatenate the dataframes into one with all processed data
-df = pd.concat([df_train, df_val, df_test], ignore_index=True)
+df = pd.concat([df_train, df_val, df_test],
+               ignore_index=True)
 
 # list of class names
 df_class_list = df.image_class.unique().tolist()
 
 ###############################################################################
-# Create csv file with file counts by data set and class
+# Copy example image files to figure output directory
 ###############################################################################
 
 # filepath for training image files
@@ -44,14 +45,19 @@ filepath_examples['bacterial_pneumonia'] = train_image_filepath \
                                            + "BACTERIA-558657-0001.jpeg"
 filepath_examples['viral_pneumonia'] = train_image_filepath \
                                        + "VIRUS-1801584-0006.jpeg"
+
 # copy the example image files to the figure output directory
 for k, fp in filepath_examples.items():
     shutil.copy(fp, FIGURE_OUTPUT_PATH + k + '_example.jpeg')
 
+###############################################################################
+# Create csv file with file counts grouped by data set and class
+###############################################################################
+
 # copy the dataframe that has all processed image data
 df_customize = df.copy()
 
-# change the class name values
+# modify the image class values
 df_customize['image_class'] = df_customize['image_class'].str.replace('_', ' ')
 
 # make dataframe with file counts grouped by data set and class
@@ -66,14 +72,13 @@ df_counts.index.rename(['Data Set', 'Image Class'],
                        inplace=True)
 
 # reorder the index in custom order
-df_counts.reindex(index=['train',
-                         'validation',
-                         'test'],
-                  level=0).reindex(
-                                   index=['bacterial pneumonia',
-                                          'viral pneumonia',
-                                          'normal'],
-                                   level=1)
+df_counts = df_counts.reindex(index=['train',
+                                     'validation',
+                                     'test'],
+                              level=0).reindex(index=['bacterial pneumonia',
+                                                      'viral pneumonia',
+                                                      'normal'],
+                                               level=1)
 
 # save the dataframe to a csv file
 df_counts.to_csv(FIGURE_OUTPUT_PATH + 'file_counts.csv')
