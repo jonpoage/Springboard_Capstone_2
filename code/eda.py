@@ -259,7 +259,8 @@ fig.text(x=0.02,
          va='center',
          rotation='vertical')
 
-# save the figure as an image file
-fig.savefig(FIGURE_OUTPUT_PATH + 'mean_images_intensity_histograms.png')
+# save the figure as a png file
+fig.savefig(FIGURE_OUTPUT_PATH + 'mean_images_intensity_histograms.png',
+            bbox_inches='tight')
 
 print('done')
