@@ -52,10 +52,10 @@ for k, fp in filepath_examples.items():
     shutil.copy(fp, FIGURE_OUTPUT_PATH + k + '_example.jpeg')
 
 ###############################################################################
-# Create html file with pivot table of file counts by class and data set
+# Create png file with pivot table of file counts by class and data set
 ###############################################################################
 
-print('creating html file with file counts')
+print('creating png file with file counts')
 
 # copy the dataframe that has all processed image data
 df_customize = df.copy()
@@ -88,8 +88,47 @@ df_counts = df_counts.reindex(columns=['train',
                                      'normal',
                                      'Total'])
 
-# save the dataframe to a html file
-df_counts.to_html(FIGURE_OUTPUT_PATH + 'file_counts.html')
+# create a figure
+fig = plt.figure(figsize=(6.4, 3))
+
+# get the figure's axis
+ax = fig.gca()
+
+# do not display the axis
+ax.axis('off')
+
+# create a table from the pivot table
+t = ax.table(cellText=df_counts.values,
+             cellLoc='center',
+             rowLabels=df_counts.index,
+             colLabels=df_counts.columns,
+             loc='center',
+             bbox=[0, 0, 1, 1])
+
+# format the cells
+for x in range(3):
+    t[0, x].set_facecolor('#ffdccc')  # light orange
+    t[0, x].set_text_props(fontweight='bold')
+
+for y in np.arange(1, 4):
+    t[y, -1].set_facecolor('#d1e5fa')  # light blue
+    t[y, -1].set_text_props(fontweight='bold')
+
+for x in np.arange(-1, 4):
+    t[4, x].set_facecolor('#e6e6e6')  # light grey
+    t[4, x].set_text_props(fontweight='bold')
+
+for y in range(4):
+    t[y, 3].set_facecolor('#e6e6e6')  # light grey
+    t[y, 3].set_text_props(fontweight='bold')
+
+# set the font size
+t.auto_set_font_size(False)
+t.set_fontsize(12)
+
+# save the table as a png file
+fig.savefig(FIGURE_OUTPUT_PATH + 'testtable.png',
+            bbox_inches='tight')
 
 ###############################################################################
 # Create mean image pixel arrays
