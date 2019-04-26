@@ -52,10 +52,10 @@ for k, fp in filepath_examples.items():
     shutil.copy(fp, FIGURE_OUTPUT_PATH + k + '_example.jpeg')
 
 ###############################################################################
-# Create csv file with file counts grouped by data set and class
+# Create html file with pivot table of file counts by class and data set
 ###############################################################################
 
-print('creating csv file with file counts')
+print('creating html file with file counts')
 
 # copy the dataframe that has all processed image data
 df_customize = df.copy()
@@ -63,28 +63,33 @@ df_customize = df.copy()
 # modify the image class values
 df_customize['image_class'] = df_customize['image_class'].str.replace('_', ' ')
 
-# make dataframe with file counts grouped by data set and class
-df_counts = df_customize.groupby(
-        ['data_set', 'image_class']).count()[['pixel_array_custom_image_size']]
+# make dataframe with file counts by data set and class
+df_counts = pd.pivot_table(data=df_customize,
+                           index='image_class',
+                           columns='data_set',
+                           values='image_file_base_path',
+                           aggfunc='count',
+                           margins=True,
+                           margins_name='Total')
 
-# rename the count column
-df_counts.columns = ['Count']
+# rename the column index
+df_counts.columns.name = 'Data Set'
 
-# rename the MultiIndex levels
-df_counts.index.rename(['Data Set', 'Image Class'],
-                       inplace=True)
+# rename the index
+df_counts.index.name = 'Image Class'
 
-# reorder the index in custom order
-df_counts = df_counts.reindex(index=['train',
-                                     'validation',
-                                     'test'],
-                              level=0).reindex(index=['bacterial pneumonia',
-                                                      'viral pneumonia',
-                                                      'normal'],
-                                               level=1)
+# reorder the index and columns in custom order
+df_counts = df_counts.reindex(columns=['train',
+                                       'validation',
+                                       'test',
+                                       'Total'],
+                              index=['bacterial pneumonia',
+                                     'viral pneumonia',
+                                     'normal',
+                                     'Total'])
 
-# save the dataframe to a csv file
-df_counts.to_csv(FIGURE_OUTPUT_PATH + 'file_counts.csv')
+# save the dataframe to a html file
+df_counts.to_html(FIGURE_OUTPUT_PATH + 'file_counts.html')
 
 ###############################################################################
 # Create mean image pixel arrays
