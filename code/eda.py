@@ -127,7 +127,7 @@ t.auto_set_font_size(False)
 t.set_fontsize(12)
 
 # save the table as a png file
-fig.savefig(FIGURE_OUTPUT_PATH + 'testtable.png',
+fig.savefig(FIGURE_OUTPUT_PATH + 'file_counts.png',
             bbox_inches='tight')
 
 ###############################################################################
