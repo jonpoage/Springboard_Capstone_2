@@ -59,29 +59,37 @@ for k, fp in filepath_examples.items():
 print('creating png file with example images')
 
 # make a figure
-fig = plt.figure(figsize=(6.5, 6.5))
+fig = plt.figure(figsize=(8.5, 8.5))
 
 # plot the normal image top center
 plt.subplot(2, 4, (2, 3))
 plt.imshow(load_img(filepath_examples['normal'], 0))
 plt.axis('off')
-plt.title('Normal')
+plt.title('Normal',
+          fontsize=18)
 
 # plot the bacterial image lower left
 plt.subplot(2, 4, (5, 6))
 plt.imshow(load_img(filepath_examples['bacterial_pneumonia'], 0))
 plt.axis('off')
-plt.title('Bacterial Pneumonia')
+plt.title('Bacterial Pneumonia',
+          fontsize=18)
 
 # plot the viral image lower right
 plt.subplot(2, 4, (7, 8))
 plt.imshow(load_img(filepath_examples['viral_pneumonia'], 0))
 plt.axis('off')
-plt.title('Viral Pneumonia')
+plt.title('Viral Pneumonia',
+          fontsize=18)
+
+# adjust the subplots size in the figure
+plt.subplots_adjust(left=0,
+                    bottom=0,
+                    right=1,
+                    top=0.9)
 
 # save the figure as a png file
-fig.savefig(FIGURE_OUTPUT_PATH + 'example_images.png',
-            bbox_inches='tight')
+fig.savefig(FIGURE_OUTPUT_PATH + 'example_images.png')
 
 ###############################################################################
 # Create png file with pivot table of file counts by class and data set
