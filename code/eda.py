@@ -248,6 +248,13 @@ for ic, c in enumerate(class_list):
                 y=600,
                 s=c.replace("_", " "),
                 color='grey')
+    ax[ic].axvline(x=np.mean(X_avg_bw[c]),
+                   color='red',
+                   linestyle='--')
+    ax[ic].text(x=np.mean(X_avg_bw[c]) + 20,
+                y=600,
+                s='Mean = %.1f' % np.mean(X_avg_bw[c]),
+                color='red')
 
 # add title and axis labels to figure
 ax[0].set_title('Intensity Histograms of Mean Images')
