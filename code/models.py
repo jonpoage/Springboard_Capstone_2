@@ -3,10 +3,16 @@ from keras.models import Sequential, Model
 from keras.applications import vgg16
 
 
+###############################################################################
+# Classifiers
+###############################################################################
+
+
 def get_my_NN_classifier(input_dim,
                          dense_activation='relu',
                          dropout_rate=0.3,
-                         output_activation='softmax'):
+                         output_activation='softmax',
+                         n_output=2):
     """This function creates a NN classifier.
 
     Input arguments:
@@ -17,6 +23,7 @@ def get_my_NN_classifier(input_dim,
                             as a proportion between 0 and 1.
         output_activation - (optional) string indicating the activation
                             function to be used in the output layer.
+        n_output - (optional) number of nodes in output layer.
 
     This function returns a Sequential object."""
 
@@ -33,9 +40,14 @@ def get_my_NN_classifier(input_dim,
 
     my_NN_classifier.add(Dropout(rate=dropout_rate))
 
-    my_NN_classifier.add(Dense(3, activation=output_activation))
+    my_NN_classifier.add(Dense(n_output, activation=output_activation))
 
     return my_NN_classifier
+
+
+###############################################################################
+# Model Bases
+###############################################################################
 
 
 def get_my_conv_layers(input_shape=(224, 224, 3),

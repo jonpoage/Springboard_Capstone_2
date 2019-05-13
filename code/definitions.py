@@ -6,3 +6,5 @@ REPO_ROOT_PATH = "C:/Users/Jon/Springboard/Capstone_2_repo/"
 PROCESSED_DATA_PATH = REPO_ROOT_PATH + "data/processed/"
 
 FIGURE_OUTPUT_PATH = REPO_ROOT_PATH + "reports/figures/"
+
+MODELS_PATH = REPO_ROOT_PATH + "models/"
