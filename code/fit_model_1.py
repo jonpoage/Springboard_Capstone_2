@@ -1,6 +1,7 @@
 import models as mdl
 import utils_model_fitting as umf
 import utils_training_history as uth
+import os
 from definitions import MODELS_PATH, FIGURE_OUTPUT_PATH
 from keras.optimizers import Adam
 
@@ -24,15 +25,23 @@ model = umf.compile_model(base=base,
                           optimizer=Adam(),
                           metrics=['accuracy'])
 
-# train the model
+# pathname for output model file
 output_HDF5_file_path = MODELS_PATH + model_name + '.h5'
+if os.path.exists(output_HDF5_file_path):
+    os.remove(output_HDF5_file_path)
+
+# train the model
 history = umf.fit_and_save_model(model,
                                  output_file_path=output_HDF5_file_path,
                                  batch_size=30,
                                  class_weight=None)
 
-# save figure of training history losses and accuracies
+# pathname for output image file
 output_png_file_path = FIGURE_OUTPUT_PATH + model_name \
                        + '_training_history_plots.png'
+if os.path.exists(output_png_file_path):
+    os.remove(output_png_file_path)
+
+# save figure of training history losses and accuracies
 uth.save_training_history_plots(history,
                                 output_file_path=output_png_file_path)
