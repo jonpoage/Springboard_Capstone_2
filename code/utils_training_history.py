@@ -1,6 +1,23 @@
 import matplotlib.pyplot as plt
 
 
+def save_training_history_plots(history, output_file_path):
+    """This function calls plot_training_history() and saves the returned
+    figure to an image file.
+
+    Input arguments:
+        history - a keras.callbacks.History object.
+        output_file_path - pathname of the output image file.
+
+    This function does not return anything."""
+
+    # get training history figure
+    fig = plot_training_history(history)
+
+    # save figure to image file
+    fig.savefig(output_file_path)
+
+
 def plot_training_history(history):
     """This function creates a figure that displays the accuracy and loss for
     the train and validation sets over all epochs of the model training
