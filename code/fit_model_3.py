@@ -6,10 +6,10 @@ from definitions import MODELS_PATH, FIGURE_OUTPUT_PATH
 from keras.optimizers import Adam
 
 # set model name
-model_name = 'model_myCNNbase_myNNclf'
+model_name = 'model_FINETUNINGvgg16base_myNNclf'
 
 # get model base
-base = mdl.get_my_conv_layers()
+base = mdl.get_vgg16_fine_tuning()
 
 # get input dimensions for classifier
 input_dim = base.output_shape[1]
@@ -22,7 +22,7 @@ clf = mdl.get_my_NN_classifier(input_dim=input_dim,
 model = umf.compile_model(base=base,
                           classifier=clf,
                           loss='categorical_crossentropy',
-                          optimizer=Adam(),
+                          optimizer=Adam(lr=1e-5),
                           metrics=['accuracy'])
 
 # pathname for output model file

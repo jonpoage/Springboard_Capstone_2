@@ -63,7 +63,7 @@ def plot_training_history(history):
                label='Validation')
     ax[1].set_ylim([0,
                     max(train_loss + val_loss)*1.05])
-    ax[1].set_ylabel('Loss: Categorical Cross-Entropy')
+    ax[1].set_ylabel('Loss')
     ax[1].set_xlabel('Epoch')
     ax[1].legend()
 
