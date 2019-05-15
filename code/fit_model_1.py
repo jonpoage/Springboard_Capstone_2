@@ -22,7 +22,7 @@ clf = mdl.get_my_NN_classifier(input_dim=input_dim,
 model = umf.compile_model(base=base,
                           classifier=clf,
                           loss='categorical_crossentropy',
-                          optimizer=Adam(),
+                          optimizer=Adam(lr=1e-4),
                           metrics=['accuracy'])
 
 # pathname for output model file

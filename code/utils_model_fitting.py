@@ -38,7 +38,7 @@ def compile_model(base, classifier, loss='binary_crossentropy',
 
 
 def fit_and_save_model(model, output_file_path, batch_size=30,
-                       class_weight=None):
+                       class_weight=None, epochs=100):
     """This function fits a model and then saves it to an HDF5 file.
 
     Input arguments:
@@ -51,6 +51,7 @@ def fit_and_save_model(model, output_file_path, batch_size=30,
         class_weight - (optional) dictionary mapping class indices (integers)
                        to weight values (floats), to be used during
                        model training.
+        epochs - (optional) number of epochs for model training.
 
     This function returns a History object that contains the
     model training history."""
@@ -85,7 +86,7 @@ def fit_and_save_model(model, output_file_path, batch_size=30,
     history = model.fit_generator(train_generator,
                                   steps_per_epoch=np.ceil(X_train.shape[0]
                                                           / batch_size),
-                                  epochs=100,
+                                  epochs=epochs,
                                   validation_data=val_generator,
                                   validation_steps=np.ceil(X_val.shape[0]
                                                            / batch_size),

@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib import rcParams
 
 
 def save_training_history_plots(history, output_file_path):
@@ -36,36 +37,48 @@ def plot_training_history(history):
     train_loss = history.history['loss']
     val_loss = history.history['val_loss']
 
+    # configure matplotlib settings
+    rcParams.update({'font.size': 18})
+
     # create figure with subplots
     fig, ax = plt.subplots(nrows=2,
                            ncols=1,
                            sharex=True,
                            figsize=(6.4, 10))
 
+    # legend colors
+    lc = {'train': 'b',
+          'val': 'm'}
+
     # plot accuracy scores
     ax[0].plot(train_acc,
-               'b',
+               lc['train'],
                label='Train')
     ax[0].plot(val_acc,
-               'm',
+               lc['val'],
                label='Validation')
     ax[0].set_ylim([0, 1])
     ax[0].set_ylabel('Accuracy')
-    ax[0].set_xlabel('Epoch')
-    ax[0].legend()
+    ax[0].grid()
 
     # plot loss scores
     ax[1].plot(train_loss,
-               'b',
+               lc['train'],
                label='Train')
     ax[1].plot(val_loss,
-               'm',
+               lc['val'],
                label='Validation')
-    ax[1].set_ylim([0,
-                    max(train_loss + val_loss)*1.05])
+    ax[1].set_ylim([0, 1])  # hard coding upper limit based on initial fits
     ax[1].set_ylabel('Loss')
     ax[1].set_xlabel('Epoch')
-    ax[1].legend()
+    ax[1].grid()
+
+    # adjust subplots
+    fig.subplots_adjust(hspace=0.16)
+
+    # place the legend above the axes
+    ax[0].legend(bbox_to_anchor=(0.1, 1.1, 0.8, 0.1),
+                 ncol=2)
 
     # set title for figure
     fig.suptitle('Training History')
