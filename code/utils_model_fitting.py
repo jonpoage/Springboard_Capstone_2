@@ -6,7 +6,7 @@ from keras.models import Sequential
 
 
 def compile_model(base, classifier, loss='binary_crossentropy',
-                  optimizer=Adam(), metrics=['accuracy']):
+                  optimizer=Adam(), metrics=None):
     """This function builds a model and compiles it.
 
     Input arguments:
@@ -18,8 +18,14 @@ def compile_model(base, classifier, loss='binary_crossentropy',
         loss - (optional) loss for the model compilation.
         optimizer - (optional) optimizer for the model compilation.
         metrics - (optional) list of metrics for the model compilation.
+                  If metrics is None, this function will pass the list
+                  ['accuracy'] to the metrics keyword of the compile method.
 
     This function returns a compiled Sequential object."""
+
+    # set default metrics if necessary
+    if metrics is None:
+        metrics = ['accuracy']
 
     # instantiate model
     model = Sequential()
