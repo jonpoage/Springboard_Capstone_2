@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib import rcParams
 
 
@@ -68,7 +69,7 @@ def plot_training_history(history):
     ax[1].plot(val_loss,
                lc['val'],
                label='Validation')
-    ax[1].set_ylim([0, 1])  # hard coding upper limit based on initial fits
+    ax[1].set_ylim([0, np.ceil(max(train_loss + val_loss))])
     ax[1].set_ylabel('Loss')
     ax[1].set_xlabel('Epoch')
     ax[1].grid()
