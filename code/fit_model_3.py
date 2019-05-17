@@ -2,11 +2,11 @@ import models as mdl
 import utils_model_fitting as umf
 import utils_training_history as uth
 import os
-from definitions import MODELS_PATH, FIGURE_OUTPUT_PATH
+from definitions import MODELS_PATH, FIGURE_OUTPUT_PATH, MODEL_NAMES
 from keras.optimizers import Adam
 
 # set model name
-model_name = 'model_FINETUNINGvgg16base_myNNclf'
+model_name = MODEL_NAMES[3]
 
 # get model base
 base = mdl.get_vgg16_fine_tuning()
