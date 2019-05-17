@@ -48,22 +48,20 @@ def get_confusion_matrix_heatmap_figure(df_cm):
     # get the figure's axis
     ax = fig.gca()
 
-    # set seaborn font scale
-    sns.set(font_scale=1.2)
-
-    # plot heatmap
+    # plot the heatmap
     ax = sns.heatmap(df_cm,
                      annot=True,
                      fmt="d",
                      cbar=False,
                      cmap='Blues',
-                     square=True,
+                     # square=True,
                      vmin=0,
                      vmax=df_cm.sum(axis=1).max())
 
-    # move xaxis ticks and labels to top
+    # move axis ticks and labels
     ax.xaxis.set_ticks_position('top')
     ax.xaxis.set_label_position('top')
+    ax.yaxis.set_ticks_position('left')
 
     # return the figure
     return fig
