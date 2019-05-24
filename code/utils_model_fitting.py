@@ -3,6 +3,7 @@ import load_processed_data as ld
 from keras.preprocessing.image import ImageDataGenerator
 from keras.optimizers import Adam
 from keras.models import Sequential
+from keras.applications.vgg16 import preprocess_input
 
 
 def compile_model(base, classifier, loss='binary_crossentropy',
@@ -44,7 +45,7 @@ def compile_model(base, classifier, loss='binary_crossentropy',
 
 
 def fit_and_save_model(model, output_file_path, batch_size=30,
-                       class_weight=None, epochs=100):
+                       class_weight=None, epochs=100, preprocessVGG16=False):
     """This function fits a model and then saves it to an HDF5 file.
 
     Input arguments:
@@ -58,6 +59,10 @@ def fit_and_save_model(model, output_file_path, batch_size=30,
                        to weight values (floats), to be used during
                        model training.
         epochs - (optional) number of epochs for model training.
+        preprocessVGG16 - (optional) Boolean indicating whether to preprocess
+                          the data using the vgg16 module's preprocess_input().
+                          If the data is preprocessed this way, the image data
+                          generators will not rescale the image pixel values.
 
     This function returns a History object that contains the
     model training history."""
@@ -68,8 +73,16 @@ def fit_and_save_model(model, output_file_path, batch_size=30,
     # load the validation data
     X_val, y_val, _ = ld.load_validation_data()
 
+    # set rescale factor and preprocess data
+    if preprocessVGG16 is True:
+        rescale_factor = 1.0
+        X_train = preprocess_input(X_train)
+        X_val = preprocess_input(X_val)
+    else:
+        rescale_factor = 1./255
+
     # training image data generator
-    train_datagen = ImageDataGenerator(rescale=1./255,
+    train_datagen = ImageDataGenerator(rescale=rescale_factor,
                                        zoom_range=0.3,
                                        rotation_range=10,
                                        width_shift_range=0.2,
@@ -82,7 +95,7 @@ def fit_and_save_model(model, output_file_path, batch_size=30,
                                          seed=10)
 
     # validation image data generator
-    val_datagen = ImageDataGenerator(rescale=1./255)
+    val_datagen = ImageDataGenerator(rescale=rescale_factor)
     val_generator = val_datagen.flow(X_val,
                                      y=y_val,
                                      batch_size=batch_size,

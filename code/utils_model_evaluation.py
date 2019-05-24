@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -62,6 +63,17 @@ def get_confusion_matrix_heatmap_figure(df_cm):
     ax.xaxis.set_ticks_position('top')
     ax.xaxis.set_label_position('top')
     ax.yaxis.set_ticks_position('left')
+    ax.set_yticklabels(ax.get_yticklabels(),
+                       va='center',
+                       rotation=0)
+
+    # show the accuracy score in a text box
+    accuracy = np.trace(df_cm.values) / np.sum(df_cm.values)
+    ax.text(1,
+            2.2,
+            f'Accuracy = {accuracy:.2f}',
+            fontdict={'fontweight': 'bold'},
+            ha='center')
 
     # return the figure
     return fig
@@ -100,11 +112,12 @@ def get_classification_report_df(y_true, y_pred, y_labels):
     return df_report
 
 
-def get_classification_report_figure(df_report):
+def get_classification_report_figure(df_report, n_classes):
     """This function creates a table from a classification report.
 
     Input arguments:
         df_report - DataFrame with the classification report.
+        n_classes - Number of classes.
 
     This function returns a Figure object."""
 
@@ -130,16 +143,16 @@ def get_classification_report_figure(df_report):
         t[0, x].set_facecolor('#ffdccc')  # light orange
         t[0, x].set_text_props(fontweight='bold')
 
-    for y in range(1, 4):
+    for y in range(1, n_classes + 1):
         t[y, -1].set_facecolor('#d1e5fa')  # light blue
         t[y, -1].set_text_props(fontweight='bold')
 
-    for y in range(4, 7):
+    for y in range(n_classes + 1, n_classes + 4):
         t[y, -1].set_facecolor('#8cbef2')  # blue
         t[y, -1].set_text_props(fontweight='bold')
 
     # set number of digits to display
-    for y in range(1, 7):
+    for y in range(1, n_classes + 4):
         t[y, 3].get_text().set_text('%d'
                                     % float(t[y, 3].get_text().get_text()))
         for x in range(3):

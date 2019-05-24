@@ -34,7 +34,8 @@ if os.path.exists(output_HDF5_file_path):
 history = umf.fit_and_save_model(model,
                                  output_file_path=output_HDF5_file_path,
                                  batch_size=30,
-                                 class_weight=None)
+                                 class_weight=None,
+                                 preprocessVGG16=False)
 
 # pathname for output image file
 output_png_file_path = (FIGURE_OUTPUT_PATH + model_name

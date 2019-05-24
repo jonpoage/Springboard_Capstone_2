@@ -5,6 +5,7 @@ import utils_model_evaluation as ume
 import os
 from definitions import MODELS_PATH, MODEL_NAMES, FIGURE_OUTPUT_PATH
 from keras.models import load_model
+from keras.applications.vgg16 import preprocess_input
 
 # adjust seaborn font scale
 sns.set(font_scale=1.2)
@@ -30,7 +31,12 @@ for k, mn in MODEL_NAMES.items():
     m = load_model(model_file_path)
 
     # get model predictions
-    y_pred = m.predict_classes(X/255.)
+    if k == 1:
+        y_pred = m.predict_classes(X/255.0)
+    elif k in [2, 3]:
+        y_pred = m.predict_classes(preprocess_input(X))
+    else:
+        raise ValueError('Invalid model key')
 
     # get confusion matrix
     df_cm = ume.get_confusion_matrix_df(y_true=y_true,
@@ -55,7 +61,7 @@ for k, mn in MODEL_NAMES.items():
                                              y_labels=y_labels)
 
     # make table from classification report
-    fig_cr = ume.get_classification_report_figure(df_cr)
+    fig_cr = ume.get_classification_report_figure(df_cr, len(y_labels))
 
     # save the table figure
     table_file_path = FIGURE_OUTPUT_PATH + mn + '_classification_report.png'
