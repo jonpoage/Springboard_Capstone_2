@@ -69,8 +69,8 @@ def get_confusion_matrix_heatmap_figure(df_cm):
 
     # show the accuracy score in a text box
     accuracy = np.trace(df_cm.values) / np.sum(df_cm.values)
-    ax.text(1,
-            2.2,
+    ax.text(df_cm.shape[0] / 2,
+            df_cm.shape[0] + 0.2,
             f'Accuracy = {accuracy:.2f}',
             fontdict={'fontweight': 'bold'},
             ha='center')
