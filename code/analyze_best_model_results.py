@@ -19,7 +19,7 @@ sns.set(font_scale=1.2,
         style='whitegrid')
 
 # key used to select which model to analyze
-model_key = 2
+model_key = 1
 
 ###############################################################################
 # Load and preprocess data
