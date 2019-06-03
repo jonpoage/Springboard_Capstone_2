@@ -147,7 +147,7 @@ fig_np_scores.savefig(table_file_path,
 ###############################################################################
 
 # create a figure
-fig_roc = plt.figure(figsize=(6.4, 4))
+fig_roc = plt.figure(figsize=(3.5, 3.5))
 
 # get axis
 ax_roc = fig_roc.gca()
@@ -164,11 +164,18 @@ ax_roc.plot([0, 1],
 # set labels and title
 ax_roc.set_xlabel('False Positive Rate')
 ax_roc.set_ylabel('True Positive Rate')
-ax_roc.set_title('Receiver Operating Characteristic (ROC) Curve'
+ax_roc.set_title('ROC Curve'
                  + '\nfor Pneumonia vs. Normal Classification')
 
 # configure axes
 ax_roc.axis('square')
+roc_ticks = [0,
+             0.25,
+             0.5,
+             0.75,
+             1]
+ax_roc.set_yticks(roc_ticks)
+ax_roc.set_xticks(roc_ticks)
 
 # save the ROC curve image file
 roc_curve_file_path = (FIGURE_OUTPUT_PATH
@@ -184,7 +191,7 @@ fig_roc.savefig(roc_curve_file_path,
 ###############################################################################
 
 # create a figure
-fig_prc = plt.figure(figsize=(6.4, 4))
+fig_prc = plt.figure(figsize=(3.5, 3.5))
 
 # get axis
 ax_prc = fig_prc.gca()
@@ -211,6 +218,13 @@ ax_prc.axis('square')
 buffer = 0.05
 ax_prc.set_xlim([0 - buffer, 1 + buffer])
 ax_prc.set_ylim([0 - buffer, 1 + buffer])
+prc_ticks = [0,
+             0.25,
+             0.5,
+             0.75,
+             1]
+ax_prc.set_yticks(prc_ticks)
+ax_prc.set_xticks(prc_ticks)
 
 # save the precision-recall curve image file
 pr_curve_file_path = (FIGURE_OUTPUT_PATH
