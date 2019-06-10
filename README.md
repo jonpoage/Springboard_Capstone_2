@@ -50,20 +50,22 @@ subdirectories:
 test_data/ ------------------- test data set
     image_files/ ----------------- test set JPEG image files
     test_data.pickle ------------- Pandas DataFrame with processed data
-                                   for the images in the test set
+
 train_data/ ------------------ train data set
     image_files/ ----------------- train set JPEG image files
     train_data.pickle ------------ Pandas DataFrame with processed data
-                                   for the images in the train set
+
 validation_data/ ------------- validation data set
     image_files/ ----------------- validation set JPEG image files
     validation_data.pickle ------- Pandas DataFrame with processed data
-                                   for the images in the validation set
 
 ===============================================================================
 models/
 ===============================================================================
-Models for Analysis parts 2 and 3 are stored here as HDF5 files.
+Keras models are stored here as HDF5 (.h5) files.
+
+NOTE - The model files are too large to store on GitHub. The user should create
+their own model files using the scripts in the code/ directory.
 
 ===============================================================================
 references/
@@ -73,11 +75,15 @@ This directory contains relevant reference materials.
 ===============================================================================
 reports/
 ===============================================================================
-This directory contains the reports for this project.
+This directory contains the reports and presentation for this project.
 
-Files: 
+files: 
 
-Capstone Project 2 Proposal.pdf --- Project Proposal
+Proposal.pdf
+Milestone Report 1.pdf
+Milestone Report 2.pdf
+Final Report.pdf
+Presentation.pptx
 
 Subdirectories:
 
