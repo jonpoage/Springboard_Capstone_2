@@ -3,46 +3,37 @@ This repository contains my second Springboard capstone project.
 
 Title: Chest X-Ray Image Classification Using Deep Learning
 
-Procedure for obtaining the raw data:
-1. Download the file ZhangLabData.zip from the website
-    https://data.mendeley.com/datasets/rscbjbr9sj/3
-2. Extract the directory chest_xray/ from the downloaded .zip file.  
-
 The repository contains the directories listed below.
 
 ===============================================================================
 code/
 ===============================================================================
 This directory contains the Python scripts that were used to prepare the 
-data and perform the analysis for this project.  
+data and perform the analysis for this project. 
+
+See code/README.txt for a description of each script.
 
 NOTE - The global variables in the script definitions.py are set for my 
 machine.  The user should alter the global variables in this script before
 running any of the other scripts.
-
-Scripts:
-
-definitions.py --------------- Global variables used by the other scripts
-eda.py ----------------------- Exploratory Data Analysis (EDA) 
-                               for Analysis part 1
-load_processed_data.py ------- Load the processed data as well as 
-                               feature and target arrays
-models.py -------------------- Models for Analysis parts 2 and 3
-process_raw_data.py ---------- Process the raw data
 
 ===============================================================================
 data/
 ===============================================================================
 This directory contains the raw and processed data used for this project.
 
-NOTE - The data sets are too large to store on GitHub. 
-The user should create the following subdirectories in their repository:
+NOTE - The data sets are too large to store on GitHub. The user should create
+the following subdirectories in the data/ directory of their repository:
 
 raw/ 
 processed/
 
-Next, the user should obtain the raw data using the procedure above and copy 
-the directory chest_xray/ into the raw/ subdirectory.
+Next, the user should obtain the raw data using the following procedure: 
+
+1. Download the file ZhangLabData.zip from the website
+    https://data.mendeley.com/datasets/rscbjbr9sj/3
+2. Extract the directory chest_xray/ from the downloaded .zip file.
+3. Copy the directory chest_xray/ into data/raw/
 
 Finally, the user should run the script process_raw_data.py (after modifying
 the global variables in definitions.py) to process the raw data and fill the
@@ -70,27 +61,9 @@ validation_data/ ------------- validation data set
                                    for the images in the validation set
 
 ===============================================================================
-docs/
-===============================================================================
-This directory is currently empty.
-
-Relevant repository documentation will be added to this directory as needed.
-
-===============================================================================
 models/
 ===============================================================================
 Models for Analysis parts 2 and 3 are stored here as HDF5 files.
-
-===============================================================================
-notebooks/
-===============================================================================
-Jupyter notebooks were stored here.
-
-NOTE - jupyter notebooks were used to perform a first pass of data processing
-and analysis. The notebooks were saved to this directory while they were being
-used. After the analysis in a particular notebook was completed, the notebook 
-was refactored into one or more Python scripts, after which the notebook was 
-deleted.
 
 ===============================================================================
 references/
